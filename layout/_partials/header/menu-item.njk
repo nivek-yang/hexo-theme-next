@@ -4,7 +4,7 @@
   <li class="menu-item menu-item-{{ node.name | lower | replace(' ', '-') }}">
 
     {%- set menuIcon = '<i class="' + node.icon + ' fa-fw"></i>' if theme.menu_settings.icons and node.icon else '' %}
-    {%- set menuText = __('menu.' + node.name) | replace('menu.', '') %}
+    {%- set menuText = __('menu.' + node.name) %}
 
     {%- set menuBadge = '' %}
     {%- if theme.menu_settings.badges %}
@@ -23,8 +23,8 @@
 
     {{- next_url(itemURL, menuIcon + menuText + menuBadge, {rel: 'section'}) -}}
 
-    {% if node.name == 'tags' %}
-      {% include 'menu-tags.swig' %}
+    {% if node.name == 'tags' and site.tags.length > 0 %}
+      {% include 'menu-tags.njk' %}
     {% endif %}
   </li>
 

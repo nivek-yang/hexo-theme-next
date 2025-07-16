@@ -1,9 +1,10 @@
 <ul class="sub-menu">
-  {% for tag in site.tags.sort('name') %}
+  {% set tags = site.tags.toArray() %}
+  {% for tag in tags | sort(attribute='name') %}
     <li class="menu-item-child">
       <a href="{{ url_for(tag.path) }}">
         {{ tag.name }}
-        <span class="post-count">{{ tag.posts.length }}</span>
+        <span class="post-count">({{ tag.posts.length }})</span>
       </a>
     </li>
   {% endfor %}

@@ -23,6 +23,9 @@
 
     {{- next_url(itemURL, menuIcon + menuText + menuBadge, {rel: 'section'}) -}}
 
+    {% if node.name == 'tags' %}
+      {% include 'menu-tags.swig' %}
+    {% endif %}
   </li>
 
 {% endmacro %}

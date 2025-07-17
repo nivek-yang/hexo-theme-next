@@ -1,7 +1,7 @@
 {##################}
 {### POST BLOCK ###}
 {##################}
-<div class="post-block">
+<div class="post-block post-card">
   {# Gallery support #}
   {{ post_gallery(post.photos) }}
 
@@ -42,7 +42,10 @@
                 <i class="fa fa-thumbtack"></i>
               </span>
             {%- endif %}
-            {{- next_url(post.path, post.title or __('post.untitled'), {class: 'post-title-link', itemprop: 'url'}) }}
+            <a href="{{ url_for(post.path) }}" class="post-title-link" itemprop="url">
+              {{ post.title or __('post.untitled') }}
+            </a>
+            <a href="{{ url_for(post.path) }}" class="card-link-overlay"></a>
           {%- else %}
             {{- post.title }}
             {{- post_edit(post.source) }}
@@ -65,29 +68,11 @@
     <div class="post-body{% if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{% endif %}" itemprop="articleBody">
       {%- if is_index %}
         {%- if post.description and theme.excerpt_description %}
-          <p>{{ post.description }}</p>
-          <!--noindex-->
-          {%- if theme.read_more_btn %}
-            <div class="post-button">
-              <a class="btn" href="{{ url_for(post.path) }}">
-                {{ __('post.read_more') }} &raquo;
-              </a>
-            </div>
-          {%- endif %}
-          <!--/noindex-->
+          <div class="post-card-content">{{ post.description }}</div>
         {% elif post.excerpt %}
-          {{ post.excerpt }}
-          <!--noindex-->
-          {%- if theme.read_more_btn %}
-            <div class="post-button">
-              <a class="btn" href="{{ url_for(post.path) }}#more" rel="contents">
-                {{ __('post.read_more') }} &raquo;
-              </a>
-            </div>
-          {%- endif %}
-          <!--/noindex-->
+          <div class="post-card-content">{{ post.excerpt | striptags }}</div>
         {% else %}
-          {{ post.content }}
+          <div class="post-card-content">{{ post.content | striptags }}</div>
         {%- endif %}
       {% else %}
         {{- next_inject('postBodyStart') }}
@@ -101,7 +86,11 @@
 
     <footer class="post-footer">
       {%- if is_index %}
-        <div class="post-eof"></div>
+        <div class="post-card-readmore">
+          <a href="{{ url_for(post.path) }}" class="btn">
+            {{ __('post.read_more') }} &raquo;
+          </a>
+        </div>
       {% else %}
         {{- next_inject('postBodyEnd') }}
 
